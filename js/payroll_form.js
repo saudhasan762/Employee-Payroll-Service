@@ -1,10 +1,3 @@
-const salary = document.querySelector('#salary');
-const output = document.querySelector('.salary-output');
-output.textContent = salary.value;
-salary.addEventListener('input', function() {
-    output.textContent = salary.value;
-});
-
 window.addEventListener('DOMContentLoaded', (event) => {
     const name = document.querySelector('#name');
     const textError = document.querySelector('.text-error')
@@ -20,6 +13,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
             textError.textContent = e;
         }
     });
+
+    const salary = document.querySelector('#salary');
+    const output = document.querySelector('.salary-output');
+    output.textContent = salary.value;
+    salary.addEventListener('input', function() {
+        output.textContent = salary.value;
+    });
 });
 
-const save = 
