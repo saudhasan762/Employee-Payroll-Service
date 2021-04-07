@@ -62,7 +62,7 @@ const setEmployeePayrollObject = () => { //new
     employeePayrollObj._startDate = date;
 }
 
-const createAndUpdateStorage = () => {
+function createAndUpdateStorage(employeePayrollData) {
     let employeePayrollList = JSON.parse(localStorage.getItem("EmployeePayrollList"));
     if(employeePayrollList){
         let empPayrollData = employeePayrollList.
@@ -76,9 +76,10 @@ const createAndUpdateStorage = () => {
             employeePayrollList.splice(index, 1, createEmployeePayrollData(empPayrollData._id));
         }
     } else {
-        employeePayrollList = [createEmployeePayrollData()]
+        employeePayrollList = [employeePayrollData];
     }
-    localStorage.setItem("EmployeePayrollList", JSON.stringify(employeePayrollList))
+    alert(employeePayrollList.toString());
+    localStorage.setItem("EmployeePayrollList", JSON.stringify(employeePayrollList));
 }
 
 const createEmployeePayrollData = (id) => { //new
@@ -133,7 +134,7 @@ const createEmployeePayroll = () => {
     employeePayrollData.department = getSelectedValues('[name=department]');
     employeePayrollData.salary = getInputValueById('#salary');
     employeePayrollData.note = getInputValueById('#notes');
-    let date = `${getInputValueById('#day')}-${getInputValueById('#month')}-${getInputValueById('#year')}`;
+    let date = getInputValueById('#day')+" "+getInputValueById('#month')+" "+getInputValueById('#year');
     employeePayrollData.startDate = date;
     alert(employeePayrollData.toString());
     return employeePayrollData;
