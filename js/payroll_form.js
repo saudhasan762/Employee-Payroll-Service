@@ -118,7 +118,7 @@ const setForm = () => {
     setValue('#salary', employeePayrollObj._salary);
     setTextValue('.salary-output', employeePayrollObj._salary);
     setValue('#notes', employeePayrollObj._note);
-    let date = stringifyDate(employeePayrollObj._startDate).split(" ");
+    let date = employeePayrollObj._startDate.split(" ");
     setValue('#day', date[0]);
     setValue('#month', date[1]);
     setValue('#year', date[2]);
@@ -191,11 +191,4 @@ const checkStartDate = (startDate) => {
     var diff = Math.abs(now.getTime() - startDate.getTime());
     if (diff / (1000 * 60 * 60 * 24) > 30)
         throw 'Start Date is beyond 30 Days!';
-}
-
-let site_properties = {
-    use_local_storage: "true",
-    home_page: "../pages/home_page.html",
-    add_emp_payroll_page: "../pages/payroll_form.html",
-    server_url: "http://127.0.0.1:3000/EmployeePayrollDB"
 }
