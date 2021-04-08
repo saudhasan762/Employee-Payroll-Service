@@ -18,6 +18,8 @@
       "_name": "Bill Gates",
       "_gender": "male",
       "_department": [
+        "Sales",
+        "Finance",
         "Engineer"
       ],
       "_salary": "500000",
@@ -30,14 +32,28 @@
       "_profilePic": "../assets/profile-images/Ellipse -8.png",
       "_gender": "male",
       "_department": [
+        "HR",
         "Sales",
         "Finance",
-        "Engineer"
+        "Engineer",
+        "Others"
       ],
-      "_salary": "300000",
-      "_note": "Hello new..check",
+      "_salary": "500000",
+      "_note": "Hello new..checking",
       "_startDate": "3 April 2021",
       "id": 4
+    },
+    {
+      "_name": "Amarpa Kumar",
+      "_gender": "female",
+      "_department": [
+        "Sales"
+      ],
+      "_salary": "50000",
+      "_startDate": "28 Mar 2021",
+      "_note": "",
+      "_profilePic": "../assets/profile-images/Ellipse -1.png",
+      "id": 5
     }
   ]
 }
