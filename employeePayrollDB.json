@@ -26,18 +26,6 @@
       "_profilePic": "../assets/profile-images/Ellipse -8.png"
     },
     {
-      "_name": "Amarpa Kumar",
-      "_gender": "female",
-      "_department": [
-        "Sales"
-      ],
-      "_salary": "50000",
-      "_startDate": "28 Mar 2021",
-      "_note": "",
-      "_profilePic": "../assets/profile-images/Ellipse 1.png",
-      "id": 3
-    },
-    {
       "_name": "Saud Hasan",
       "_profilePic": "../assets/profile-images/Ellipse -8.png",
       "_gender": "male",
@@ -50,20 +38,6 @@
       "_note": "Hello new..check",
       "_startDate": "3 April 2021",
       "id": 4
-    },
-    {
-      "_name": "Chandan",
-      "_profilePic": "../assets/profile-images/Ellipse -3.png",
-      "_gender": "male",
-      "_department": [
-        "HR",
-        "Sales",
-        "Finance"
-      ],
-      "_salary": "437200",
-      "_note": "new chand",
-      "_startDate": "13 March 2021",
-      "id": 5
     }
   ]
 }
