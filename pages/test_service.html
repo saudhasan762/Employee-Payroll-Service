@@ -45,18 +45,18 @@
 
             const empPayrollData = 
             {
-                _name: 'Amarpa Shashanka keerthi Kumar',
+                _name: 'Amarpa Kumar',
                 _gender: 'female',
                 _department: [
                     'Sales'
                 ],
-                _salary: '400000',
+                _salary: '50000',
                 _startDate: '28 Mar 2021',
                 _note: '',
                 _profilePic: '../assets/profile-images/Ellipse -1.png'
             };
             const postElem = document.querySelector("#post_services");
-            const postURL = "http://127.0.0.1:3000/EmployeePayrollDB/";
+            const postURL = "http://127.0.0.1:3000/EmployeePayrollDB";
             makeServiceCall("POST", postURL, true, empPayrollData)
                 .then(responseText => {
                     postElem.textContent = "New User Data:"+responseText;

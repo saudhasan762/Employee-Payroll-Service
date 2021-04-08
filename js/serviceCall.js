@@ -17,7 +17,7 @@ function makeServiceCall(methodType, url, async=true, data=null){
         xhr.onerror = function(){
             reject({
                 status: this.status,
-                statusText: XMLHttpRequest.statusText
+                statusText: xhttp.statusText
             });
         };
 

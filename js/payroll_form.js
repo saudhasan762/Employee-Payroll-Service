@@ -9,19 +9,19 @@ window.addEventListener('DOMContentLoaded', (event) => {
             return;
         }
         try {
-            (new EmployeePayrollData()).name = name.value;
+            checkName(name.value);
             setTextValue('.text-error', "");
         } catch (e) {
             setTextValue('.text-error', e);
         }
     });
-
+    
     const date = document.querySelector('#date');
     date.addEventListener('input', function() {
         const startDate = new Date(Date.parse(getInputValueById('#day')+" "+getInputValueById('#month')+" "+
                         getInputValueById('#year')));
         try {
-            (new EmployeePayrollData()).startDate = startDate;
+            checkStartDate(new Date(Date.parse(startDate)));
             setTextValue('.date-error', "");
         } catch (e) {
             setTextValue('.date-error', e);
@@ -52,6 +52,9 @@ const save = (event) => {
 }
 
 const setEmployeePayrollObject = () => { //new
+    if(!isUpdate && site_properties.use_local_storage.match("true")) {
+        employeePayrollObj.id = createNewEmployeeId();
+    }
     employeePayrollObj._name = getInputValueById('#name');
     employeePayrollObj._profilePic = getSelectedValues('[name=profile]').pop();
     employeePayrollObj._gender = getSelectedValues('[name=gender]').pop();
@@ -62,56 +65,6 @@ const setEmployeePayrollObject = () => { //new
     employeePayrollObj._startDate = date;
 }
 
-function createAndUpdateStorage(employeePayrollData) {
-    let employeePayrollList = JSON.parse(localStorage.getItem("EmployeePayrollList"));
-    if(employeePayrollList){
-        let empPayrollData = employeePayrollList.
-                            find(empData => empData._id == employeePayrollObj._id);
-        if(!empPayrollData) {
-            employeePayrollList.push(createEmployeePayrollData());
-        } else {
-            const index = employeePayrollList
-                            .map(empData => empData._id)
-                            .indexOf(empPayrollData._id);
-            employeePayrollList.splice(index, 1, createEmployeePayrollData(empPayrollData._id));
-        }
-    } else {
-        employeePayrollList = [employeePayrollData];
-    }
-    alert(employeePayrollList.toString());
-    localStorage.setItem("EmployeePayrollList", JSON.stringify(employeePayrollList));
-}
-
-const createEmployeePayrollData = (id) => { //new
-    let employeePayrollData = new EmployeePayrollData();
-    if (!id) employeePayrollData.id = createNewEmployeeId();
-    else employeePayrollData.id = id;
-    setEmployeePayrollData(employeePayrollData);
-    return employeePayrollData;
-}
-
-const setEmployeePayrollData = (employeePayrollData) => {
-    try {
-        employeePayrollData.name = employeePayrollObj._name;
-    } catch (e) {
-        setTextValue('.text-error', e);
-        throw e;
-    }
-    employeePayrollData.profilePic = employeePayrollObj._profilePic;
-    employeePayrollData.gender = employeePayrollObj._gender;
-    employeePayrollData.department = employeePayrollObj._department;
-    employeePayrollData.salary = employeePayrollObj._salary;
-    employeePayrollData.note = employeePayrollObj._note;
-    try {
-        employeePayrollData.startDate = 
-            new Date(Date.parse(employeePayrollObj._startDate));
-    } catch (e) {
-        setTextValue('.date-error', e);
-        throw e;
-    }
-    alert(employeePayrollData.toString());
-}
-
 const createNewEmployeeId = () => {
     let empID = localStorage.getItem("EmployeeID");
     empID = !empID ? 1: (parseInt(empID)+1).toString();
@@ -119,25 +72,23 @@ const createNewEmployeeId = () => {
     return empID;
 }
 
-const createEmployeePayroll = () => {
-    let employeePayrollData = new EmployeePayrollData();
-    try{
-        employeePayrollData.name = getInputValueById('#name');
-    } catch (e){
-        setTextValue('.text-error', e);
-        throw e;
+function createAndUpdateStorage() {
+    let employeePayrollList = JSON.parse(localStorage.getItem("EmployeePayrollList"));
+    if(employeePayrollList){
+        let empPayrollData = employeePayrollList.
+                            find(empData => empData.id == employeePayrollObj.id);
+        if(!empPayrollData) {
+            employeePayrollList.push(employeePayrollObj);
+        } else {
+            const index = employeePayrollList
+                            .map(empData => empData.id)
+                            .indexOf(empPayrollData.id);
+            employeePayrollList.splice(index, 1, employeePayrollObj);
+        }
+    } else {
+        employeePayrollList = [employeePayrollObj];
     }
-    let list =  JSON.parse(localStorage.getItem('EmployeePayrollList'));
-    employeePayrollData.id = list.length + 1;
-    employeePayrollData.profilePic = getSelectedValues('[name=profile]').pop();
-    employeePayrollData.gender = getSelectedValues('[name=gender]').pop();
-    employeePayrollData.department = getSelectedValues('[name=department]');
-    employeePayrollData.salary = getInputValueById('#salary');
-    employeePayrollData.note = getInputValueById('#notes');
-    let date = getInputValueById('#day')+" "+getInputValueById('#month')+" "+getInputValueById('#year');
-    employeePayrollData.startDate = date;
-    alert(employeePayrollData.toString());
-    return employeePayrollData;
+    localStorage.setItem("EmployeePayrollList", JSON.stringify(employeePayrollList));
 }
 
 const getSelectedValues = (propertyValue) => {
@@ -226,4 +177,25 @@ const checkForUpdate = () => {
     if (!isUpdate) return;
     employeePayrollObj = JSON.parse(employeePayrollJson);
     setForm();
+}
+
+const checkName = (name) => {
+    let nameRegex = RegExp('^[A-Z]{1}[a-zA-Z\\s]{2,}$');
+    if (!nameRegex.test(name)) throw 'Name is Incorrect';
+}
+
+
+const checkStartDate = (startDate) => {
+    let now = new Date();
+    if (startDate > now) throw 'Start Date is a Future Date';
+    var diff = Math.abs(now.getTime() - startDate.getTime());
+    if (diff / (1000 * 60 * 60 * 24) > 30)
+        throw 'Start Date is beyond 30 Days!';
+}
+
+let site_properties = {
+    use_local_storage: "true",
+    home_page: "../pages/home_page.html",
+    add_emp_payroll_page: "../pages/payroll_form.html",
+    server_url: "http://127.0.0.1:3000/EmployeePayrollDB"
 }
